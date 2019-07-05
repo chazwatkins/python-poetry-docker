@@ -4,7 +4,7 @@ LABEL maintainer="Chaz Watkins <chazwatkins@live.com>"
 
 # -- Install Poetry and update configuration
 RUN pip install poetry \
-    && poetry config.virtualenvs.create false
+    && poetry config settings.virtualenvs.create false
 
 WORKDIR /app
 
