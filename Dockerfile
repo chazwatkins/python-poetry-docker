@@ -2,7 +2,6 @@ FROM python:3
 
 LABEL maintainer="Chaz Watkins <chazwatkins@live.com>"
 
-# -- Install Pipenv:
 RUN pip install --pre -q poetry
 
 ONBUILD WORKDIR /app
