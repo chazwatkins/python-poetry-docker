@@ -3,8 +3,7 @@ FROM python:3
 LABEL maintainer="Chaz Watkins <chazwatkins@live.com>"
 
 # -- Install Poetry and update configuration
-RUN pip install poetry \
-    && poetry config settings.virtualenvs.create false
+RUN pip install poetry -q
 
 WORKDIR /app
 
@@ -12,4 +11,7 @@ WORKDIR /app
 ONBUILD COPY . .
 
 # -- Install dependencies:
-ONBUILD RUN poetry install --no-dev -q
+ONBUILD RUN poetry build -f wheel -q \
+    && pip install dist/*.whl -q \
+    && rm -rf dist \
+    && rm -rf $HOME/.cache
