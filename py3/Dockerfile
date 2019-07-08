@@ -6,3 +6,5 @@ RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poet
     && mv "$HOME/.poetry" "/.poetry"
 
 ENV PATH="/.poetry/bin:$PATH"
+
+RUN poetry config settings.virtualenvs.create false

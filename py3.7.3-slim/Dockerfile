@@ -8,3 +8,5 @@ RUN apt-get update -y \
     && mv "$HOME/.poetry" "/.poetry"
 
 ENV PATH="/.poetry/bin:$PATH"
+
+RUN poetry config settings.virtualenvs.create false

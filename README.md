@@ -17,14 +17,25 @@ COPY . .
 
 RUN poetry install --no-dev
 
-CMD ["poetry", "run", "python", "./your-script.py"]
+CMD ["python", "./your-script.py"]
 ```
 
-_This method is __not preferred__ as it creates a virtualenv, in which you have to execute all commands.  `poetry v0.12.17` command `poetry config settings.virtualenvs.create false` does not work in docker containers.  The configuration file is not created for some reason.  There is a [pull request](https://github.com/sdispater/poetry/pull/1180) pending to resolve this issue._
+or for applications with a command-line interface:
+
+```dockerfile
+FROM chazw/poetry
+
+WORKDIR /app
+COPY . .
+
+RUN poetry install --no-dev --develop .
+
+CMD ["app-cli-name", "your-command"]
+```
 
 ### Using the poetry `preview` release
 
-_Preferred method as `poetry v0.12.17` has issues with toggling off the creation of virtual environments inside of a docker container.  Reference [pull request](https://github.com/sdispater/poetry/pull/1180)._
+_Current `preview` has issues with toggling off the creation of virtual environments inside of a docker container.  Reference [pull request](https://github.com/sdispater/poetry/pull/1180).  Typically we would run `poetry install ...`, but must instead export to `requirements.txt` as a workaround._
 
 ```dockerfile
 FROM chazw/poetry:preview
