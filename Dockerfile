@@ -2,15 +2,13 @@ FROM python:3
 
 LABEL maintainer="Chaz Watkins <chazwatkins@live.com>"
 
-# -- Install Poetry
-RUN pip install --pre poetry
+# -- Install Pipenv:
+RUN pip install -U --pre -q poetry
 
-WORKDIR /app
+ONBUILD WORKDIR /app
+ONBUILD COPY . .
 
-# -- Copy 
-ONBUILD COPY pyproject.toml pyproject.toml
-ONBUILD COPY poetry.lock poetry.lock
-
-# -- Install dependencies:
-ONBUILD RUN poetry export -f requirements.txt \
-    && pip install -q -r requirements.txt
+ONBUILD RUN poetry build -f wheel -q \
+    && pip install dist/*.whl -q \
+    && rm -rf dist \
+    && rm -rf $HOME/.cache
